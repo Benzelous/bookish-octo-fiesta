@@ -25,7 +25,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 72px;
+    font-size: 48px;
     text-align: center;
     cursor: pointer;
     z-index: 10;
@@ -33,7 +33,7 @@ body {
 
 #tinyMessage {
     position: fixed;
-    font-size: 16px;
+    font-size: 8px;
     color: white;
     bottom: 10%;
     left: 50%;
@@ -57,11 +57,11 @@ video {
 <body>
 
 <div id="overlay">
-  Tap anywhere to continue
+ Error 4001a - Meme_video.mov load error. Click to reload page
 </div>
 
 <div id="tinyMessage">
-  Get closer… something is coming!
+  Didn't anyone teach you not to trust random QR codes you find lying around?
 </div>
 
 <video id="vid" playsinline preload="auto" loop>
@@ -100,7 +100,7 @@ function startVideoAfterDelay(delayMs) {
 function firstClick() {
     overlay.style.display = "none";        // hide overlay
     tinyMessage.style.display = "block";   // show tiny message
-    startVideoAfterDelay(10000);           // 10 seconds delay
+    startVideoAfterDelay(5000);           // 10 seconds delay
 }
 
 // Attach events
