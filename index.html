@@ -25,10 +25,22 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 48px;
+    font-size: 72px;
     text-align: center;
     cursor: pointer;
     z-index: 10;
+}
+
+#tinyMessage {
+    position: fixed;
+    font-size: 14px;
+    color: white;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    opacity: 0.8;
+    z-index: 11;
 }
 
 video {
@@ -45,7 +57,11 @@ video {
 <body>
 
 <div id="overlay">
-  Failed to load page due to Error (Err47590a) - Tap anywhere to retry again
+  Tap anywhere to continue
+</div>
+
+<div id="tinyMessage">
+  Click closer to see the surprise!
 </div>
 
 <video id="vid" playsinline preload="auto" loop>
@@ -54,16 +70,26 @@ video {
 
 <script>
 const overlay = document.getElementById("overlay");
+const tinyMessage = document.getElementById("tinyMessage");
 const video = document.getElementById("vid");
 
-async function startExperience() {
-    overlay.style.display = "none";   // hide overlay
-    video.style.visibility = "visible"; 
+let firstClickDone = false;
+
+// First click: hide main overlay, show tiny message
+function firstClick() {
+    overlay.style.display = "none";
+    tinyMessage.style.display = "block";
+    firstClickDone = true;
+}
+
+// Second click: play video at full volume, fullscreen
+async function secondClick() {
+    tinyMessage.style.display = "none";
+    video.style.visibility = "visible";
     video.style.opacity = "1";
-    video.muted = false;              // ensure sound plays
+    video.muted = false;
     video.volume = 1.0;
 
-    // request fullscreen
     if (video.requestFullscreen) {
         video.requestFullscreen();
     } else if (video.webkitRequestFullscreen) {
@@ -77,9 +103,22 @@ async function startExperience() {
     }
 }
 
-// Attach click/touch events once
-document.addEventListener("click", startExperience, {once: true});
-document.addEventListener("touchstart", startExperience, {once: true});
+// Attach events
+document.addEventListener("click", () => {
+    if (!firstClickDone) {
+        firstClick();
+    } else {
+        secondClick();
+    }
+}, {once: false});
+
+document.addEventListener("touchstart", () => {
+    if (!firstClickDone) {
+        firstClick();
+    } else {
+        secondClick();
+    }
+}, {once: false});
 </script>
 
 </body>
