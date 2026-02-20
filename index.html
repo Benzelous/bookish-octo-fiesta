@@ -78,7 +78,7 @@ video {
 <body>
 
 <div id="card">
-    <h3>Opening document…</h3>
+    <h3>Opening Video Player</h3>
     <div class="spinner"></div>
     <div id="status">Connecting to secure server</div>
 
@@ -105,11 +105,11 @@ const video = document.getElementById("vid");
 /* Fake loading sequence */
 setTimeout(() => {
     statusText.textContent = "Decrypting file…";
-}, 2000);
+}, 1000);
 
 setTimeout(() => {
     statusText.textContent = "Finalising preview…";
-}, 4000);
+}, 2000);
 
 setTimeout(() => {
     document.querySelector(".spinner").style.display="none";
@@ -121,7 +121,7 @@ errorBox.addEventListener("click", () => {
     errorBox.style.display="none";
     tinyMessage.style.display="block";
 
-    startVideoAfterDelay(10000); // 10 sec delay
+    startVideoAfterDelay(5000); // 10 sec delay
 }, {once:true});
 
 async function startVideoAfterDelay(delayMs){
@@ -152,4 +152,5 @@ async function startVideoAfterDelay(delayMs){
 </script>
 
 </body>
+
 </html>
