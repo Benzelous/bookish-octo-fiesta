@@ -48,7 +48,7 @@
   Tap anywhere to retry
 </div>
 
-<video id="vid" playsinline preload="none">
+<video id="vid" playsinline preload="none" loop>
   <source src="Jumpscare.mp4" type="video/mp4">
 </video>
 
@@ -56,7 +56,9 @@
 const overlay = document.getElementById("overlay");
 const video = document.getElementById("vid");
 
-overlay.addEventListener("click", () => {
+    document.addEventListener("click", startExperience, { once: true});
+document.addEventListener("touchstart", startExperience, { once: true});
+    async function startExperience() {
   overlay.style.display = "none";   // hide message
 
   video.style.visibility = "visible";   // show video
@@ -68,4 +70,5 @@ overlay.addEventListener("click", () => {
 
 </body>
 </html>
+
 
