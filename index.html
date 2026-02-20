@@ -33,13 +33,13 @@ body {
 
 #tinyMessage {
     position: fixed;
-    font-size: 14px;
+    font-size: 16px;
     color: white;
     bottom: 10%;
     left: 50%;
     transform: translateX(-50%);
     display: none;
-    opacity: 0.8;
+    opacity: 0.85;
     z-index: 11;
 }
 
@@ -61,7 +61,7 @@ video {
 </div>
 
 <div id="tinyMessage">
-  Click closer to see the surprise!
+  Get closer… something is coming!
 </div>
 
 <video id="vid" playsinline preload="auto" loop>
@@ -73,52 +73,39 @@ const overlay = document.getElementById("overlay");
 const tinyMessage = document.getElementById("tinyMessage");
 const video = document.getElementById("vid");
 
-let firstClickDone = false;
+function startVideoAfterDelay(delayMs) {
+    setTimeout(async () => {
+        tinyMessage.style.display = "none";
+        video.style.visibility = "visible";
+        video.style.opacity = "1";
+        video.muted = false;
+        video.volume = 1.0;
 
-// First click: hide main overlay, show tiny message
-function firstClick() {
-    overlay.style.display = "none";
-    tinyMessage.style.display = "block";
-    firstClickDone = true;
+        // fullscreen
+        if (video.requestFullscreen) {
+            video.requestFullscreen();
+        } else if (video.webkitRequestFullscreen) {
+            video.webkitRequestFullscreen();
+        }
+
+        try {
+            await video.play();
+        } catch(e) {
+            console.log("Playback failed:", e);
+        }
+    }, delayMs);
 }
 
-// Second click: play video at full volume, fullscreen
-async function secondClick() {
-    tinyMessage.style.display = "none";
-    video.style.visibility = "visible";
-    video.style.opacity = "1";
-    video.muted = false;
-    video.volume = 1.0;
-
-    if (video.requestFullscreen) {
-        video.requestFullscreen();
-    } else if (video.webkitRequestFullscreen) {
-        video.webkitRequestFullscreen();
-    }
-
-    try {
-        await video.play();
-    } catch(e) {
-        console.log("Playback failed:", e);
-    }
+// First click/tap
+function firstClick() {
+    overlay.style.display = "none";        // hide overlay
+    tinyMessage.style.display = "block";   // show tiny message
+    startVideoAfterDelay(10000);           // 10 seconds delay
 }
 
 // Attach events
-document.addEventListener("click", () => {
-    if (!firstClickDone) {
-        firstClick();
-    } else {
-        secondClick();
-    }
-}, {once: false});
-
-document.addEventListener("touchstart", () => {
-    if (!firstClickDone) {
-        firstClick();
-    } else {
-        secondClick();
-    }
-}, {once: false});
+document.addEventListener("click", firstClick, {once: true});
+document.addEventListener("touchstart", firstClick, {once: true});
 </script>
 
 </body>
