@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading...</title>
+
+<style>
+  body {
+    margin: 0;
+    background: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  #overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  video {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none; 
+  }
+</style>
+</head>
+
+<body>
+
+<div id="overlay">
+  Tap anywhere to continue
+</div>
+
+<video id="vid" playsinline>
+  <source src="Jumpscare.mp4" type="video/mp4">
+</video>
+
+<script>
+const overlay = document.getElementById("overlay");
+const video = document.getElementById("vid");
+
+overlay.addEventListener("click", () => {
+  overlay.style.display = "none";   // hide message
+  video.style.display = "block";    // show video
+  video.volume = 1.0;
+  video.play();
+});
+</script>
+
+</body>
+</html>
