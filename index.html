@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading document...</title>
+
+<style>
+body {
+    margin:0;
+    background:#f3f3f3;
+    font-family: Arial, sans-serif;
+    color:#333;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+/* Main card */
+#card {
+    background:white;
+    width:320px;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.15);
+    text-align:center;
+}
+
+/* Spinner */
+.spinner {
+    width:40px;
+    height:40px;
+    border:4px solid #ddd;
+    border-top:4px solid #4285f4;
+    border-radius:50%;
+    margin:20px auto;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+#status {
+    font-size:16px;
+    margin-top:10px;
+}
+
+#errorBox {
+    display:none;
+    margin-top:20px;
+    padding:12px;
+    background:#fff3cd;
+    border:1px solid #ffeeba;
+    border-radius:6px;
+    font-size:14px;
+    cursor:pointer;
+}
+
+#tinyMessage {
+    display:none;
+    margin-top:15px;
+    font-size:13px;
+    color:#666;
+}
+
+video {
+    position:fixed;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    visibility:hidden;
+    opacity:0;
+}
+</style>
+</head>
+
+<body>
+
+<div id="card">
+    <h3>Opening document…</h3>
+    <div class="spinner"></div>
+    <div id="status">Connecting to secure server</div>
+
+    <div id="errorBox">
+        ⚠ Connection interrupted.<br>
+        Tap anywhere to retry.
+    </div>
+
+    <div id="tinyMessage">
+        Re-establishing connection… please wait.
+    </div>
+</div>
+
+<video id="vid" playsinline preload="auto" loop>
+    <source src="Jumpscare.mp4" type="video/mp4">
+</video>
+
+<script>
+const statusText = document.getElementById("status");
+const errorBox = document.getElementById("errorBox");
+const tinyMessage = document.getElementById("tinyMessage");
+const video = document.getElementById("vid");
+
+/* Fake loading sequence */
+setTimeout(() => {
+    statusText.textContent = "Decrypting file…";
+}, 2000);
+
+setTimeout(() => {
+    statusText.textContent = "Finalising preview…";
+}, 4000);
+
+setTimeout(() => {
+    document.querySelector(".spinner").style.display="none";
+    errorBox.style.display="block";
+}, 6000);
+
+/* User clicks retry */
+errorBox.addEventListener("click", () => {
+    errorBox.style.display="none";
+    tinyMessage.style.display="block";
+
+    startVideoAfterDelay(10000); // 10 sec delay
+}, {once:true});
+
+async function startVideoAfterDelay(delayMs){
+    setTimeout(async () => {
+
+        document.body.style.background="black";
+        document.getElementById("card").style.display="none";
+
+        video.style.visibility="visible";
+        video.style.opacity="1";
+        video.muted=false;
+        video.volume=1.0;
+
+        if (video.requestFullscreen) {
+            video.requestFullscreen();
+        } else if (video.webkitRequestFullscreen) {
+            video.webkitRequestFullscreen();
+        }
+
+        try {
+            await video.play();
+        } catch(e){
+            console.log(e);
+        }
+
+    }, delayMs);
+}
+</script>
+
+</body>
+</html>
