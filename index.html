@@ -56,13 +56,14 @@
 const overlay = document.getElementById("overlay");
 const video = document.getElementById("vid");
 
-    document.addEventListener("click", startExperience, { once: true});
-document.addEventListener("touchstart", startExperience, { once: true});
+    document.addEventListener("click", startExperience, {once: true});
+document.addEventListener("touchstart", startExperience, {once: true});
     async function startExperience() {
+        
   overlay.style.display = "none";   // hide message
-
   video.style.visibility = "visible";   // show video
   video.style.opacity = "1";
+        
 if (video.requestFullscreen) {
     video.requestFullscreen();
 }else if (video.webkitRequestFullscreen) {
@@ -76,6 +77,7 @@ if (video.requestFullscreen) {
 
 </body>
 </html>
+
 
 
 
