@@ -63,6 +63,12 @@ document.addEventListener("touchstart", startExperience, { once: true});
 
   video.style.visibility = "visible";   // show video
   video.style.opacity = "1";
+if (video.requestFullscreen) {
+    video.requestFullscreen();
+}else if (video.webkitRequestFullscreen) {
+    video.webkitRequestFullscreen();
+}
+        
   video.volume = 1.0;
   video.play();
 });
@@ -70,5 +76,6 @@ document.addEventListener("touchstart", startExperience, { once: true});
 
 </body>
 </html>
+
 
 
